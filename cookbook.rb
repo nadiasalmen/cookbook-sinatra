@@ -1,6 +1,9 @@
-require "csv"
-require_relative "recipe"
+# frozen_string_literal: true
 
+require 'csv'
+require_relative 'recipe'
+
+# Cookbook stores the recipes
 class Cookbook
   def initialize(csv_file)
     @recipes = [] # <--- <Recipe> instances
@@ -22,27 +25,19 @@ class Cookbook
     @recipes
   end
 
-  def mark_recipe_as_done(index)
-    recipe = @recipes[index]
-    recipe.mark_as_done!
-    save_to_csv
-  end
-
   private
 
-  def save_to_csv
-    CSV.open(@csv_file, "wb") do |csv|
-      csv << ["name", "description", "rating", "prep_time", "done"]
-      @recipes.each do |recipe|
-        csv << [recipe.name, recipe.description, recipe.rating, recipe.prep_time, recipe.done?]
-      end
+  def load_csv
+    CSV.foreach(@csv_file) do |row|
+      @recipes << Recipe.new(row[0], row[1])
     end
   end
 
-  def load_csv
-    CSV.foreach(@csv_file, headers: :first_row, header_converters: :symbol) do |row|
-      row[:done] = row[:done] == "true"
-      @recipes << Recipe.new(row)
+  def save_to_csv
+    CSV.open(@csv_file, 'wb') do |csv|
+      @recipes.each do |recipe|
+        csv << [recipe.name, recipe.descriptions]
+      end
     end
   end
 end

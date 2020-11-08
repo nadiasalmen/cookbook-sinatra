@@ -1,5 +1,11 @@
-<p>
-  I'm in a <em>view</em>!
-</p>
+<h1>Welcome to your Cookbook</h1>
 
-<%= Time.now %>
+<p>You currently have in your cookbook:</p>
+
+<ul>
+  <% @recipes.each_with_index do |recipe, index| %>
+    <li><%= recipe.name %>: <%= recipe.description %> - <a href="/recipes/<%= index %>">Destroy</a></li>
+  <% end %>
+</ul>
+
+<a href="/new">Add a recipe</a>

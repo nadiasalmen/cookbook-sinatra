@@ -1,7 +1,9 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-gem "sinatra"
-gem "sinatra-contrib"
+source 'https://rubygems.org'
+
+gem 'better_errors'
+gem 'binding_of_caller'
 gem "pry-byebug"
-gem "better_errors"
-gem "binding_of_caller"
+gem 'sinatra'
+gem 'sinatra-contrib'
